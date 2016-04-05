@@ -1,0 +1,19 @@
+---
+
+- local_action:
+    module: ec2_elb_lb
+    name: "New ELB"
+    state: present
+    region: us-east-1
+    zones:
+      - us-east-1a
+      - us-east-1d
+    listeners:
+      - protocols: http
+      - load_balancer_port: 80
+      - instance_port: 80
+    stickiness:
+      type: loadbalancer
+      enabled: yes
+      expiration: 300
+
