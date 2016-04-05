@@ -2,8 +2,6 @@
 - hosts: all
   remote_user: "{{ user_name }}"
   sudo: yes
-  vars:
-    task: "install_api"
   vars_files:
     - "../vars/main.yml"
 

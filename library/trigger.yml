@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: sample_webapp
   remote_user: "{{ user_name }}"
   sudo: yes
   vars_files:
@@ -7,3 +7,4 @@
 
   roles:
     - create_elb
+    - spawn_ec2_instance

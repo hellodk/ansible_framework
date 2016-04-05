@@ -2,8 +2,6 @@
 - hosts: spawn_ec2
   remote_user: "{{ user_name }}"
   sudo: yes
-  vars:
-    task: "install_api"
   vars_files:
     - "../vars/main.yml"
 
