@@ -1,0 +1,39 @@
+---
+
+- name: Creating webserver
+  ec2:
+    key_name: "eu-weat1"
+    group: web
+    instance_type: t1.micro
+    image: ami-0c8c0c7f
+    region: eu-west-1
+    aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY_ID')}}"
+    aws_secret_key: "{{lookup('env', 'AWS_SECRET_ACCESS_KEY')}}"    
+    wait: yes
+    group: launch-wizard-2
+    exact_count: 3
+    assign_public_ip: no
+  register: instance_details
+
+- name: wait for SSH to come up
+  wait_for: host={{ item.public_dns_name }}
+                port=22 delay=10 timeout=180 state=started
+  with_items: instance_details.tagged_instances
+
+- name: add instance(s) to host group
+  add_host: hostname={{ item.public_ip }} groupname=launched
+  with_items: instance_details.tagged_instances
+
+- local_action: ec2_elb
+  args:
+    instance_id: "{{ item.id }}"
+    ec2_elbs: sampleElb
+    state: present
+    region: eu-west-1
+    aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY_ID')}}"
+    aws_secret_key: "{{lookup('env', 'AWS_SECRET_ACCESS_KEY')}}"
+  with_items: instance_details.tagged_instances
+
+- name: 'configure elb dns'
+  route53: command=create zone=hellofaasos.com record=hellofaasos.com
+           type=CNAME ttl=300 value="{{ elb.elb.dns_name }}"

@@ -1,0 +1,10 @@
+---
+- name: Add machine to elb
+  local_action:
+      module: ec2_elb
+      aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
+      aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
+      region: "{{ region }}"
+      instance_id: "{{ instance_id }}"
+      ec2_elbs: "{{elb_name}}"
+      state: present

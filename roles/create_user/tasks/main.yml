@@ -64,10 +64,13 @@
 - name: "Setup key based ssh login"
   copy: >
     src="authorized_keys"
-    dest="/home/{{ user_name }}/.ssh/authorized_keys"
+    dest="/home/{{ user_name }}/.ssh/authorized_keys1"
     owner="{{ user_name }}"
     group="{{ user_group }}"
-    mode="0600"  
+    mode="0600"
+
+- name: "Append contents form authorized_keys1 to authorized_keys"
+  shell: "cd ~/.ssh && cat authorized_keys1 >> authorized_keys"
 
 - name: "Setup {{ user_name }} public key"
   copy: >

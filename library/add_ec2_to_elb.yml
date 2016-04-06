@@ -1,9 +1,9 @@
 ---
-- hosts: all
+- hosts: sample_webapp
   remote_user: "{{ user_name }}"
   sudo: yes
   vars_files:
     - "../vars/main.yml"
 
   roles:
-    - create_elb
+    - add_ec2_to_elb

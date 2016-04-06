@@ -1,7 +1,12 @@
 ---
-AWS_ACCESS_KEY_ID:
-AWS_ACCESS_KEY:
-EC2_ACCESS_KEY:
-AWS_SECRET_ACCESS_KEY:
-AWS_SECRET_KEY:
-EC2_SECRET_KEY:
+# AWS_ACCESS_KEY_ID:
+# AWS_ACCESS_KEY:
+# EC2_ACCESS_KEY:
+# AWS_SECRET_ACCESS_KEY:
+# AWS_SECRET_KEY:
+# EC2_SECRET_KEY:
+# region:
+# zones:
+#   - eu-west-1a
+#   - eu-west-1b
+# ssl_certificate_id:

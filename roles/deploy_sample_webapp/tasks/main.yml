@@ -1,0 +1,65 @@
+---
+
+- name: Install apt-package dependencies
+  apt: >
+    name="{{ item }}"
+    state="present"
+    force=yes
+  with_items:
+    - nginx
+    - python-pip
+    - python-pycurl
+    - python-dev 
+    - git
+    - python-setuptools
+    - supervisor
+    - unzip
+    - gunicorn
+
+- name: Create web app directroy - /srv/web_app
+  file: >
+    path="/srv/web_app/"
+    state="directory"
+    owner=ubuntu
+    group=ubuntu
+    mode=0755
+
+- name: Cloning the web_app repo
+  sudo: no
+  git: >
+    repo="https://github.com/hellodk/login_page.git"
+    dest="/srv/web_app/"
+    accept_hostkey=yes
+    force=yes
+    depth=1
+    version="{{ git_tag }}"
+
+- name: Installing pip requirements.
+  pip: requirements="/srv/web_app/requirements.txt"
+
+- name: Copy the supervisor configuration file
+  copy: >
+    src=web_app_supervisord.conf
+    dest=/etc/supervisor/conf.d/web_app.conf
+
+- name: Copy the nginx configuration
+  copy: >
+    src=web_app_nginx_conf
+    dest=/etc/nginx/sites-available/web_app
+- name: Create softlink for sites-enabled
+  file: >
+    src=/etc/nginx/sites-available/web_app
+    dest=/etc/nginx/sites-enabled/web_app
+    state=link
+    owner=ubuntu
+    group=ubuntu
+- name: "Disable default nginx site conf"
+  file: >
+    path="/etc/nginx/sites-enabled/default"
+    state=absent
+
+- name: Ensure supervisor service is started
+  service: name=supervisor state=started enabled=yes
+
+- name: Restart nginx
+  service: name=nginx state=restarted

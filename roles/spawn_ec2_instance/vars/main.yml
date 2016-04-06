@@ -5,3 +5,6 @@ EC2_ACCESS_KEY:
 AWS_SECRET_ACCESS_KEY:
 AWS_SECRET_KEY:
 EC2_SECRET_KEY:
+instance_id: 
+image_id: ami-0c8c0c7f
+region: eu-west-1
