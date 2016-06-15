@@ -1,0 +1,4 @@
+---
+
+- name: Restart newrelic
+  service: name=newrelic state=restarted

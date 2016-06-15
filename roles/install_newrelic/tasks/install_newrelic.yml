@@ -1,0 +1,21 @@
+- name: Add rpm package
+  shell: "sudo rpm -Uvh https://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm"
+
+- name: RedHat | Install New Relic Sysmond
+  yum:
+    name: newrelic-sysmond
+    state: present
+  notify:
+    - Restart newrelic
+
+- name: Start newrelic-sysmond
+  shell: "/etc/init.d/newrelic-sysmond restart"
+
+- name: Set the licence key
+  shell: "nrsysmond-config --set license_key={{ licence_key }}"
+
+- name: Start newrelic-sysmond
+  shell: "/etc/init.d/newrelic-sysmond start"
+
+- name: Ensure newrelic service is always up
+  service: name=newrelic enabled=yes
