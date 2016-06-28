@@ -1,6 +1,6 @@
 ---
-- hosts: all
-  remote_user: "{{ user_name }}"
+- hosts: create_user
+  remote_user: "{{ super_user_name }}"
   sudo: yes
   vars_files:
     - "../vars/main.yml"

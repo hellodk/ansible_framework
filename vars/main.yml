@@ -1,2 +1,3 @@
-user_group : karma
-user_name : karma
+super_user_name : vagrant
+user_name: vagrant
+user_group: vagrant

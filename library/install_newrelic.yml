@@ -1,0 +1,8 @@
+- hosts: new_relic
+  remote_user: "{{ user_name }}"
+  sudo: yes
+  vars_files:
+    - "../vars/main.yml"
+
+  roles:
+    - install_newrelic
