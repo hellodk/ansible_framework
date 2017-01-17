@@ -2,6 +2,7 @@
 - hosts: create_user
   remote_user: "{{ super_user_name }}"
   sudo: yes
+  #become_user: root
   vars_files:
     - "../vars/main.yml"
 
